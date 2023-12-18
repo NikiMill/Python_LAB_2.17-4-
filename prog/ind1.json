@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Moscow",
+        "no": 1,
+        "time": "21:00:00"
+    },
+    {
+        "name": "Stavropol",
+        "no": 2,
+        "time": "21:50:30"
+    },
+    {
+        "name": "Chelaba",
+        "no": 3,
+        "time": "12:50:30"
+    }
+]
