@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-
+#Использовать словарь, содержащий следующиек лючи: название пунктa аназначения; номерпоезда; времяотправления.
+#Написать программу, выполняющую следующие действия: ввод с клавиатуры данных в список, состоящий из словарей заданной структуры; записи должны быть упорядочены по номерам поездов;
+#необходимо реализовать интерфейс командной строки с использованием пакета click .
 import json
 import click
 
@@ -21,8 +22,8 @@ def add(filename, name, nomer, time):
     Добавить данные о поезде
     """
     # Запросить данные о поезде.
-    poezd = load_poezd(filename)
-    poezd.append(
+    train = load_train(filename)
+    train.append(
         {
             "nomer": nomer,
             "name": name,
@@ -30,7 +31,7 @@ def add(filename, name, nomer, time):
         }
     )
     with open(filename, "w", encoding="utf-8") as fout:
-        json.dump(poezd, fout, ensure_ascii=False, indent=4)
+        json.dump(train, fout, ensure_ascii=False, indent=4)
     click.secho("Поезд добавлен")
 
 
@@ -40,10 +41,10 @@ def add(filename, name, nomer, time):
 def display(filename, select):
     print(select)
     # Заголовок таблицы.
-    poezd = load_poezd(filename)
+    train = load_train(filename)
 
     if select:
-        poezd = selected(poezd, select)
+        train = selected(train, select)
 
     line = "+-{}-+-{}-+-{}-+".format(
         "-" * 10,
@@ -66,14 +67,14 @@ def display(filename, select):
 
 def selected(list, nom):
     # Проверить сведения поездов из списка.
-    poezd = []
+    train = []
     for po in list:
         if po["nomer"] == nom:
-            poezd.append(po)
-    return poezd
+            train.append(po)
+    return train
 
 
-def load_poezd(filename):
+def load_train(filename):
     with open(filename, "r", encoding="utf-8") as fin:
         return json.load(fin)
 
