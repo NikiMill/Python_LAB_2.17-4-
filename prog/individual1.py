@@ -8,14 +8,14 @@ import json
 import os.path
 
 
-def get_poezd(poezd, name, no, time):
+def get_train(train, name, no, time):
 
-    poezd.append({"name": name, "no": no, "time": time})
-    return poezd
+    train.append({"name": name, "no": no, "time": time})
+    return train
 
 
-def list(poezd):
-    if poezd:
+def list(train):
+    if train:
         line = "+-{}-+-{}-+-{}-+".format(
             "-" * 10,
             "-" * 20,
@@ -25,7 +25,7 @@ def list(poezd):
         print("| {:^10} | {:^20} | {:^8} |".format(" No ", "Название", "Время"))
         print(line)
 
-        for idx, po in enumerate(poezd, 1):
+        for idx, po in enumerate(train, 1):
             print(
                 "| {:>10} | {:<20} | {"
                 "} |".format(po.get("no", ""), po.get("name", ""), po.get("time", ""))
@@ -36,21 +36,21 @@ def list(poezd):
         print("Список поездов пуст.")
 
 
-def select_poezd(poezd, nom):
+def select_train(train, nom):
     rezult = []
-    for idx, po in enumerate(poezd, 1):
+    for idx, po in enumerate(train, 1):
         if po["no"] == str(nom):
             rezult.append(po)
 
     return rezult
 
 
-def save_poezd(file_name, poezd):
+def save_train(file_name, train):
     with open(file_name, "w", encoding="utf-8") as fout:
-        json.dump(poezd, fout, ensure_ascii=False, indent=4)
+        json.dump(train, fout, ensure_ascii=False, indent=4)
 
 
-def load_poezd(file_name):
+def load_train(file_name):
     with open(file_name, "r", encoding="utf-8") as fin:
         return json.load(fin)
 
@@ -59,7 +59,7 @@ def main(command_line=None):
     file_parser = argparse.ArgumentParser(add_help=False)
     file_parser.add_argument("filename", action="store", help="Имя файла данных")
 
-    parser = argparse.ArgumentParser("poezd")
+    parser = argparse.ArgumentParser("train")
     parser.add_argument("--version", action="version", version="%(prog)s 0.1.0")
 
     subparsers = parser.add_subparsers(dest="command")
@@ -97,23 +97,23 @@ def main(command_line=None):
 
     is_dirty = False
     if os.path.exists(args.filename):
-        poezd = load_poezd(args.filename)
+        train = load_train(args.filename)
     else:
-        poezd = []
+        train = []
 
     if args.command == "add":
-        poezd = get_poezd(poezd, args.name, args.no, args.time)
+        train = get_train(train, args.name, args.no, args.time)
         is_dirty = True
 
     elif args.command == "display":
-        list(poezd)
+        list(train)
 
     elif args.command == "select":
-        selected = select_poezd(poezd, args.nom)
+        selected = select_train(train, args.nom)
         list(selected)
 
     if is_dirty:
-        save_poezd(args.filename, poezd)
+        save_train(args.filename, train)
 
 
 if __name__ == "__main__":
